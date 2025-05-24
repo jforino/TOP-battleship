@@ -12,25 +12,44 @@ class Gameboard {
     printBoard(){
         return console.table(this.board);  
     }
+    
+    clearBoard(){
+        this.board = Array.from({ length: this.height }, () => {
+            return Array.from({ length: this.width }, () => ' ')
+        })
+    }
 
     placeShip(shipName, x, y, orientation){
-        if(shipName.isSunken()){
+        if(shipName.isSunk()){
             throw new Error('Ship is sunken already')
         }
 
+        if(shipName.length - x <= 0  || shipName.length - y <= 0){
+            throw new Error('Ship cannot be placed there - Out of Map'); 
+        }
+
         for(let i = 0; i < shipName.length; i++){
-            if(orientation = 'horizontal'){
-                this.board[x][y+i] = 'S'
+            if(orientation === 'horizontal'){
+                this.board[y][x+i] = {ship : shipName}
+            }
+
+            if (orientation === 'vertical'){
+                this.board[y+i][x] = {ship: shipName}; 
             }
         }
+    }
+
+    receiveAttack(x, y){
+        const cell = this.board[y][x]; 
+        if(typeof cell === 'object' && 'ship' in cell){
+            console.log(cell.ship.hit(1)); 
+            this.board[y][x] = 'X'; 
+        }
+
+        
     }
 
 
 }
 
 module.exports = Gameboard;
-
-
-let testGameboard = new Gameboard; 
-
-console.log(testGameboard.printBoard())
