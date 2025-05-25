@@ -6,7 +6,7 @@ class Gameboard {
         this.board = Array.from({ length: this.height }, () => {
             return Array.from({ length: this.width }, () => ' ')
         })
-        this.currentShipsPlaced = 0;
+        this.missedShotArray = [];
     };
 
     printBoard(){
@@ -24,7 +24,7 @@ class Gameboard {
             throw new Error('Ship is sunken already')
         }
 
-        if(shipName.length - x <= 0  || shipName.length - y <= 0){
+        if(shipName.length - x < 0  || shipName.length - y < 0){
             throw new Error('Ship cannot be placed there - Out of Map'); 
         }
 
@@ -45,8 +45,24 @@ class Gameboard {
             console.log(cell.ship.hit(1)); 
             this.board[y][x] = 'X'; 
         }
+        else {
+            this.missedShotArray.push([x,y]); 
+            this.board[x][y] = 'M'; 
+        }
+    }
 
-        
+    checkIfAllShipsSunk(){
+        for (let row of this.board){
+            for (let cell of row){
+                if (typeof cell === 'object' && 'ship' in cell){
+                    return false;
+                }
+
+                
+            }
+        }
+
+        return true; 
     }
 
 
