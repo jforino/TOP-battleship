@@ -8,7 +8,9 @@ function createGameboardForPlayer(){
 }
 
 
-function startGame(playerOneName, playerTwoName){
-    const playerOneName
+function startGame(playerOne, playerTwo){
+
+    const playerOneGameboard = createGameboardForPlayer(); 
+    const playerTwoGameboard = createGameboardForPlayer(); 
 
 }

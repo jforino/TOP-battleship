@@ -8,6 +8,7 @@ class Player {
         this.name = name; 
         this.playerType = playerType
         this.gameboard = gameboard
+        this.shipCount = 0; 
     }
 
 }
